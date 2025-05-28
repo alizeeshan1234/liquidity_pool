@@ -38,13 +38,6 @@ describe("liquidity_pool_project", () => {
       1
     );
 
-    lpTokenMint = await createMint(
-      provider.connection,
-      provider.wallet.payer,
-      provider.wallet.publicKey,
-      null,
-      1
-    );
 
     [poolConfigAccount] = PublicKey.findProgramAddressSync(
       [Buffer.from("poolconfig"), mintA.toBuffer(), mintB.toBuffer()],
@@ -71,6 +64,25 @@ describe("liquidity_pool_project", () => {
 
     vaultTokenB = vaultTokenBata.address;
 
+
+    [poolAuthority] = PublicKey.findProgramAddressSync(
+      [Buffer.from("pool_authority"), poolConfigAccount.toBuffer()],
+      program.programId,
+    );
+
+    [lpMintAuthority] = PublicKey.findProgramAddressSync(
+      [Buffer.from("lp_mint")],
+      program.programId
+    );
+
+    lpTokenMint = await createMint(
+      provider.connection,
+      provider.wallet.payer,
+      lpMintAuthority,
+      null,
+      1
+    );
+
     let creatorTokenAccountATA = await getOrCreateAssociatedTokenAccount(
       provider.connection,
       provider.wallet.payer,
@@ -81,15 +93,6 @@ describe("liquidity_pool_project", () => {
 
     creatorTokenAccount = creatorTokenAccountATA.address;
 
-    [lpMintAuthority] = PublicKey.findProgramAddressSync(
-      [Buffer.from("lp_mint")],
-      program.programId
-    );
-
-    [poolAuthority] = PublicKey.findProgramAddressSync(
-      [Buffer.from("pool_authority"), poolConfigAccount.toBuffer()],
-      program.programId,
-    );
 
   })
 

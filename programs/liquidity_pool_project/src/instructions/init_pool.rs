@@ -23,7 +23,8 @@ pub struct InitializeLiquidityPool<'info> {
     pub mint_b: InterfaceAccount<'info, Mint>,
 
     #[account(
-        mint::token_program = token_program
+        mint::token_program = token_program,
+        mint::authority = lp_mint_auth,
     )]
     pub lp_mint: InterfaceAccount<'info, Mint>,
 
@@ -37,7 +38,8 @@ pub struct InitializeLiquidityPool<'info> {
     pub pool_config_account: Account<'info, LiquidityPoolConfig>,
 
     #[account(
-        mut,
+        init_if_needed,
+        payer = creator,
         associated_token::mint = mint_a,
         associated_token::authority = pool_config_account,
         associated_token::token_program = token_program,
@@ -45,7 +47,8 @@ pub struct InitializeLiquidityPool<'info> {
     pub vault_token_a: InterfaceAccount<'info, TokenAccount>,
 
     #[account(
-        mut,
+        init_if_needed,
+        payer = creator,
         associated_token::mint = mint_b,
         associated_token::authority = pool_config_account,
         associated_token::token_program = token_program,
@@ -53,7 +56,8 @@ pub struct InitializeLiquidityPool<'info> {
     pub vault_token_b: InterfaceAccount<'info, TokenAccount>,
 
     #[account(
-        mut,
+        init_if_needed,
+        payer = creator,
         associated_token::mint = lp_mint,
         associated_token::authority = creator,
         associated_token::token_program = token_program,
