@@ -4,6 +4,7 @@ import { LiquidityPoolProject } from "../target/types/liquidity_pool_project";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { createMint, getOrCreateAssociatedTokenAccount, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import { ASSOCIATED_PROGRAM_ID } from "@coral-xyz/anchor/dist/cjs/utils/token";
+import bs58 from "bs58";
 
 describe("liquidity_pool_project", () => {
   let provider = anchor.AnchorProvider.env();
@@ -115,5 +116,23 @@ describe("liquidity_pool_project", () => {
     }).signers([provider.wallet.payer]).rpc();
 
     console.log(`Transaction Signature: ${tx}`);
+  });
+
+  it("BTC/USDC price feeds", async () => {
+  // BTC/USD price account on devnet (example - verify the actual address)
+
+  const btcPriceAccount = new PublicKey("0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43");
+
+  const tx = await program.methods
+  .getPrice(new PublicKey("9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96rjdp8")) 
+  .accounts({
+    user: provider.wallet.publicKey,
+    priceUpdate: btcPriceAccount, 
   })
+  .rpc();
+
+  console.log(`Transaction Signature: ${tx}`);
+
+  });
+
 });
