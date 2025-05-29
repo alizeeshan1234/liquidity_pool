@@ -19,7 +19,7 @@ pub mod liquidity_pool_project {
         ctx.accounts.init_liquidit_pool(fees, &ctx.bumps)
     }
 
-    pub fn get_price(ctx: Context<PythPriceAccount>, feed_id: Pubkey) -> Result<()> {
+    pub fn get_price(ctx: Context<PythPriceAccount>, feed_id: String) -> Result<()> {
         instructions::pyth_price::get_price(ctx, feed_id)
     }
 }

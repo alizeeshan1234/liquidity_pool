@@ -99,7 +99,7 @@ describe("liquidity_pool_project", () => {
 
   it("Initialize liquidity pool", async () => {
     const fees = 0.5;
-    const tx = await program.methods.initializeLiquidityPool(fees).accounts({
+    const tx = await program.methods.initializeLiquidityPool(fees).accountsPartial({
       creator: provider.wallet.publicKey,
       mintA,
       mintB,
@@ -121,18 +121,37 @@ describe("liquidity_pool_project", () => {
   it("BTC/USDC price feeds", async () => {
   // BTC/USD price account on devnet (example - verify the actual address)
 
-  const btcPriceAccount = new PublicKey("0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43");
+  let BTCUSD = new PublicKey("4cSM2e6rvbGQUFiJbqytoVMi5GgghSMr8LwVrT9VPSPo");
 
   const tx = await program.methods
-  .getPrice(new PublicKey("9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96rjdp8")) 
+  .getPrice("0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43") 
   .accounts({
     user: provider.wallet.publicKey,
-    priceUpdate: btcPriceAccount, 
+    priceUpdate: BTCUSD, 
   })
   .rpc();
 
   console.log(`Transaction Signature: ${tx}`);
 
   });
+
+
+  it("SOL/USDC price feeds", async () => {
+    // BTC/USD price account on devnet (example - verify the actual address)
+  
+    let SOLUSD = new PublicKey("7UVimffxr9ow1uXYxsr4LHAcV58mLzhmwaeKvJ1pjLiE");
+  
+    const tx = await program.methods
+    .getPrice("0xef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d") 
+    .accounts({
+      user: provider.wallet.publicKey,
+      priceUpdate: SOLUSD, 
+    })
+    .rpc();
+  
+    console.log(`Transaction Signature: ${tx}`);
+  
+    });
+
 
 });

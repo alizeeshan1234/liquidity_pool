@@ -12,19 +12,16 @@ pub struct PythPriceAccount<'info> {
     pub price_update: Account<'info, PriceUpdateV2>,
 }
 
-pub fn get_price(ctx: Context<PythPriceAccount>, feed_id_hex: Pubkey) -> Result<()> {
-     let price_update = &mut ctx.accounts.price_update;
+pub fn get_price(ctx: Context<PythPriceAccount>, feed_id: String) -> Result<()> {
+     let price_update = &ctx.accounts.price_update;
 
-     let hex_id = feed_id_hex.to_bytes();
-     let key_hex = hex::encode(hex_id);
-
-     let feed_id: [u8; 32] = get_feed_id_from_hex(&key_hex)?;
+     let feed_id: [u8; 32] = get_feed_id_from_hex(&feed_id)?;
     
      let price = price_update.get_price_unchecked(&feed_id)?;
 
      msg!("The price is ({} ± {}) * 10^{}", price.price, price.conf, price.exponent);
 
-    let exact_price = (price.price as f64) * 10f64.powi(price.exponent);
+     let exact_price = (price.price as f64) * 10f64.powi(price.exponent);
 
      msg!("BTC exact price: {}", exact_price);
 

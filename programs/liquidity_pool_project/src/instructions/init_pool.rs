@@ -77,7 +77,7 @@ pub struct InitializeLiquidityPool<'info> {
         seeds = [b"pool_authority", pool_config_account.key().as_ref()],
         bump
     )]
-    pub pool_authority: UncheckedAccount<'info>,
+    pub pool_authority: SystemAccount<'info>,
 
     pub associated_token_program: Program<'info, AssociatedToken>,
     pub token_program: Interface<'info, TokenInterface>,
