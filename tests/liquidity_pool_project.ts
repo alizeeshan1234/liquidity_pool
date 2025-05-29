@@ -119,19 +119,18 @@ describe("liquidity_pool_project", () => {
   });
 
   it("BTC/USDC price feeds", async () => {
-  // BTC/USD price account on devnet (example - verify the actual address)
+    // BTC/USD price account on devnet (example - verify the actual address)
 
-  let BTCUSD = new PublicKey("4cSM2e6rvbGQUFiJbqytoVMi5GgghSMr8LwVrT9VPSPo");
+    let BTCUSD = new PublicKey("4cSM2e6rvbGQUFiJbqytoVMi5GgghSMr8LwVrT9VPSPo");
 
-  const tx = await program.methods
-  .getPrice("0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43") 
-  .accounts({
-    user: provider.wallet.publicKey,
-    priceUpdate: BTCUSD, 
-  })
-  .rpc();
+    const tx = await program.methods
+    .getPrice("0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43")
+    .accounts({
+      user: provider.wallet.publicKey,
+      priceUpdate: BTCUSD, 
+    }).rpc();
 
-  console.log(`Transaction Signature: ${tx}`);
+    console.log(`Transaction Signature: ${tx}`);
 
   });
 
